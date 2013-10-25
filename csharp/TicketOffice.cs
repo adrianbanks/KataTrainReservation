@@ -28,12 +28,12 @@ namespace KataTrainReservation
                     if (grouping.Count() >= numberOfRequestedSeats)
                     {
                         var reservedSeats = grouping.Take(numberOfRequestedSeats).ToList();
-                        return new Reservation("", bookingIdService.GetNextId(), reservedSeats);
+                        return new Reservation(request.TrainId, bookingIdService.GetNextId(), reservedSeats);
                     }
                 }
             }
 
-            return new Reservation("", "", new List<Seat>());
+            return new Reservation(request.TrainId, "", new List<Seat>());
         }
     }
 }

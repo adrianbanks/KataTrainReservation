@@ -96,6 +96,19 @@ namespace KataTrainReservation
         }
 
         [Test]
+        public void MakeReservation_ReturnsTheCorrectTrainId()
+        {
+            var bookingIdService = MakeBookingIdService(bookingId);
+            var availableSeatsService = MakeAvailableSeatsService();
+            var ticketOffice = new TicketOffice(bookingIdService, availableSeatsService);
+            var reservationRequest = new ReservationRequest(trainId, 1);
+            
+            var reservation = ticketOffice.MakeReservation(reservationRequest);
+
+            Assert.That(reservation.TrainId, Is.EqualTo(trainId));
+        }
+
+        [Test]
         public void MakeReservation_GivesEmptyReservation_WhenThereAreNotEnoughSeatsInACoach()
         {
             var bookingIdService = MakeBookingIdService(bookingId);
