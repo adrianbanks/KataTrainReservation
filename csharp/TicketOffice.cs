@@ -14,9 +14,10 @@ namespace KataTrainReservation
 
         public Reservation MakeReservation(ReservationRequest request)
         {
-            if (availableSeatsService.GetUnreservedSeats("").Any())
+            var unreservedSeats = availableSeatsService.GetUnreservedSeats("");
+            if (unreservedSeats.Any())
             {
-                return new Reservation("", "id", new List<Seat>());
+                return new Reservation("", "id", new List<Seat>{unreservedSeats.First()});
             }
 
             return new Reservation("", "", new List<Seat>());
