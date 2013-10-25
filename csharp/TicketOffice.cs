@@ -1,18 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace KataTrainReservation
 {
     public class TicketOffice
     {
-        public TicketOffice(IAvailableSeatsService mockAvailableSeatsService)
+        private readonly IAvailableSeatsService availableSeatsService;
+
+        public TicketOffice(IAvailableSeatsService availableSeatsService)
         {
-            
+            this.availableSeatsService = availableSeatsService;
         }
 
         public Reservation MakeReservation(ReservationRequest request)
         {
-            return new Reservation("","", new List<Seat>());
+            if (availableSeatsService.GetUnreservedSeats("").Any())
+            {
+                return new Reservation("", "id", new List<Seat>());
+            }
+
+            return new Reservation("", "", new List<Seat>());
         }
     }
 }
