@@ -1,0 +1,9 @@
+train/*
+trains/*
+*.pyc
+[Bb]in
+[Oo]bj
+packages
+*.suo
+*.user
+*.ncrunchsolution
