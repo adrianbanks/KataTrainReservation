@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace KataTrainReservation
 {
@@ -6,8 +7,7 @@ namespace KataTrainReservation
     {
         public Reservation MakeReservation(ReservationRequest request)
         {
-            //TODO: implement this code!
-            throw new NotImplementedException();
+            return new Reservation("","", new List<Seat>());
         }
     }
 }

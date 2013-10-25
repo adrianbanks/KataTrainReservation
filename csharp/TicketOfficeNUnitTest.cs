@@ -6,9 +6,16 @@ namespace KataTrainReservation
     public class TicketOfficeNUnitTest
     {
         [Test]
-        public void reserveSeats()
+        public void MakeReservation_GivesReservationWithEmptyBookingID_WhenTheTrainIsFull()
         {
-            // TODO: write this code
+            var ticketOffice = new TicketOffice();
+            var reservationRequest = new ReservationRequest("express_2013", 1);
+
+            var reservation = ticketOffice.MakeReservation(reservationRequest);
+
+            Assert.That(reservation.BookingId, Is.Empty);
         }
+
+
     }
 }
