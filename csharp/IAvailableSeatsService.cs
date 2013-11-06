@@ -5,5 +5,6 @@ namespace KataTrainReservation
     public interface IAvailableSeatsService
     {
         IList<Seat> GetUnreservedSeats(string trainId);
+        int GetTotalNumberOfSeats(string trainId);
     }
 }

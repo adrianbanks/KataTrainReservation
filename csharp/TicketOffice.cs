@@ -17,7 +17,13 @@ namespace KataTrainReservation
         public Reservation MakeReservation(ReservationRequest request)
         {
             int numberOfRequestedSeats = request.SeatCount;
-            var unreservedSeats = availableSeatsService.GetUnreservedSeats("");
+            var unreservedSeats = availableSeatsService.GetUnreservedSeats(request.TrainId);
+            int totalNumberOfSeats = availableSeatsService.GetTotalNumberOfSeats(request.TrainId);
+
+            if ((unreservedSeats.Count - numberOfRequestedSeats) <= (0.3 * totalNumberOfSeats))
+            {
+                return new Reservation(request.TrainId, "", new List<Seat>());
+            }
 
             if (unreservedSeats.Count >= numberOfRequestedSeats)
             {

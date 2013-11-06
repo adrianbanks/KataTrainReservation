@@ -16,11 +16,17 @@ namespace KataTrainReservation
             bookingIdService.GetNextId().Returns(nextBookingId);
             return bookingIdService;
         }
-
+        
         private static IAvailableSeatsService MakeAvailableSeatsService(params Seat[] availableSeats)
         {
+            return MakeAvailableSeatsService(int.MaxValue, availableSeats);
+        }
+
+        private static IAvailableSeatsService MakeAvailableSeatsService(int totalSeats, params Seat[] availableSeats)
+        {
             var availableSeatsService = Substitute.For<IAvailableSeatsService>();
-            availableSeatsService.GetUnreservedSeats(trainId).ReturnsForAnyArgs(availableSeats);
+            availableSeatsService.GetTotalNumberOfSeats(trainId).Returns(totalSeats);
+            availableSeatsService.GetUnreservedSeats(trainId).Returns(availableSeats);
             return availableSeatsService;
         }
 
@@ -115,6 +121,19 @@ namespace KataTrainReservation
             var availableSeatsService = MakeAvailableSeatsService(new Seat("A", 1), new Seat("A", 2), new Seat("B", 1), new Seat("B", 2));
             var ticketOffice = new TicketOffice(bookingIdService, availableSeatsService);
             var reservationRequest = new ReservationRequest(trainId, 4);
+
+            var reservation = ticketOffice.MakeReservation(reservationRequest);
+
+            Assert.That(reservation.BookingId, Is.Empty);
+        }
+        
+        [Test]
+        public void MakeReservation_GivesEmptyReservation_WhenThereIs70PercentSeatUsage()
+        {
+            var bookingIdService = MakeBookingIdService(bookingId);
+            var availableSeatsService = MakeAvailableSeatsService(10, new Seat("A", 1), new Seat("A", 2), new Seat("A", 3));
+            var ticketOffice = new TicketOffice(bookingIdService, availableSeatsService);
+            var reservationRequest = new ReservationRequest(trainId, 1);
 
             var reservation = ticketOffice.MakeReservation(reservationRequest);
 
